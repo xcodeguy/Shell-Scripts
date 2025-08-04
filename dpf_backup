@@ -1,0 +1,53 @@
+#!/bin/sh
+
+##
+# My Backup Script
+##
+clear
+echo
+echo
+echo 'Dave Ferrell - Backup script v1.0'
+echo 'Copyright (c) 2005 Home Office'
+echo
+echo
+echo '**************************************************'
+echo 'Backing up data to STORAGE'
+echo '**************************************************'
+echo 'home directory...'
+cp ~/Library/Calendars/* ~/Documents/iCal\ Backup/
+rsync -alLHq --eahfs --rsync-path=/usr/local/bin/rsync --exclude=Desktop* --exclude=.* --exclude=Pictures* --exclude=Applications* --exclude=Library* --exclude=Temporary* ~/ /Volumes/STORAGE/G5
+echo 'pictures...'
+rsync -aq --delete --rsync-path=/usr/local/bin/rsync ~/Pictures /Volumes/STORAGE/G5
+echo 'music...'
+rsync -aq --rsync-path=/usr/local/bin/rsync /digital_music/aac_files /volumes/STORAGE
+echo
+echo '**************************************************'
+echo 'Backing up data to LACIE'
+echo '**************************************************'
+echo 'home directory...'
+cp ~/Library/Calendars/* ~/Documents/iCal\ Backup/
+rsync -alLHq --eahfs --rsync-path=/usr/local/bin/rsync --exclude=Desktop* --exclude=.* --exclude=Pictures* --exclude=Applications* --exclude=Library* --exclude=Temporary* ~/ /Volumes/LaCie/G5
+echo 'pictures...'
+rsync -aq --delete --rsync-path=/usr/local/bin/rsync ~/Pictures /Volumes/LaCie/G5
+echo 'music...'
+rsync -aq --rsync-path=/usr/local/bin/rsync /digital_music/aac_files /volumes/LaCie
+echo
+echo '**************************************************'
+echo 'Backing up STORAGE to G-RAID'
+echo '**************************************************'
+echo 'home directory, music, video...'
+rsync -e "ssh -i dpf_backup_keygen" -alLHq --eahfs --rsync-path=/usr/local/bin/rsync --exclude=.* --exclude=Temorary* --exclude=Pictures* /volumes/STORAGE/ pb17:/volumes/G-RAID
+echo 'pictures...'
+rsync -e "ssh -i dpf_backup_keygen" -aq --delete --rsync-path=/usr/local/bin/rsync /Volumes/STORAGE/G5/Pictures pb17:/volumes/G-RAID/G5
+echo
+echo '**************************************************'
+echo 'Synchronizing home direcotry and music to Powerbook'
+echo '**************************************************'
+echo 'home direcotry...'
+rsync -e "ssh -i dpf_backup_keygen" -alLHq --eahfs --rsync-path=/usr/local/bin/rsync --exclude=Desktop* --exclude=.* --exclude=Pictures* --exclude=Applications* --exclude=Library* --exclude=Temporary* ~/ pb17:/users/dferrell
+echo 'pictures...'
+rsync -e "ssh -i dpf_backup_keygen" -aq --delete --rsync-path=/usr/local/bin/rsync ~/Pictures pb17:/users/dferrell
+echo 'music...'
+rsync -e "ssh -i dpf_backup_keygen" -aq --rsync-path=/usr/local/bin/rsync /digital_music/aac_files pb17:/digital_music
+echo
+echo 'done.'

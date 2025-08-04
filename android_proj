@@ -1,0 +1,41 @@
+#!/bin/sh
+
+
+arg1="$1"
+if [ -z "$arg1" ]; then
+    arg1="--help"
+fi
+
+arg2="$2"
+if [ -z "$arg2" ]; then
+    arg1="--help"
+fi
+
+arg3="$3"
+if [ -z "$arg3" ]; then
+    arg1="--help"
+fi
+
+arg4="$4"
+if [ -z "$arg4" ]; then
+    arg1="--help"
+fi
+
+case $arg1 in
+  --help)
+    echo ""
+    echo "Usage: android_proj [Project Name] [Activity Name] [Release Level|integer] [domain]"
+    echo "Available targets:"
+    android list targets
+    exit 0
+    ;;
+esac
+
+
+android create project \
+--target "$arg3" \
+--name "$arg1" \
+--path ~/Documents/home_office_dev_workspace/Home\ Office/David\ Ferrell/android/"$arg1" \
+--activity "$arg2" \
+--package com."$arg4".android."$arg1"
+

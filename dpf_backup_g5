@@ -1,0 +1,59 @@
+#!/bin/sh
+
+##
+# My Backup Script
+##
+clear
+echo
+echo
+echo 'Dave Ferrell - Backup script v1.0'
+echo 'Copyright (c) 2005 Home Office'
+echo '**************************************************'
+echo 'CONSOLIDATING data to Lacie Firewire'
+echo
+echo '(step 1) backing up personal data...'
+echo 
+cp ~/Library/Calendars/* ~/Documents/iCal\ Backup/
+echo
+rsync -alLH --eahfs --showtogo --rsync-path=/usr/local/bin/rsync --exclude=Desktop* --exclude=.* --exclude=Pictures* --exclude=Applications* --exclude=Library* --exclude=Temporary* ~/ /Volumes/Lacie/G5
+echo
+echo '(step 2) backing up pictures...'
+echo 
+rsync -a --showtogo --delete --rsync-path=/usr/local/bin/rsync ~/Pictures /Volumes/Lacie/G5
+echo
+echo '(step 3) backing up music files...'
+echo 
+rsync -a --showtogo --rsync-path=/usr/local/bin/rsync /digital_music/aac_files /volumes/lacie
+echo
+echo '**************************************************'
+echo 'CONSOLIDATING data to G-RAID Firewire'
+echo
+echo '(step 4) backing up video files...'
+echo 
+rsync -e "ssh -i dpf_backup_keygen" -alLH --eahfs --showtogo --rsync-path=/usr/local/bin/rsync --exclude=.* --exclude=Temorary* /volumes/storage/ pb17:/volumes/g-raid
+echo
+echo '(step 5) backing up Lacie all...'
+echo 
+rsync -e "ssh -i dpf_backup_keygen" -alLH --eahfs --showtogo --rsync-path=/usr/local/bin/rsync --exclude=.* --exclude=Pictures* /Volumes/Lacie/ pb17:/volumes/g-raid
+echo
+echo '(step 6) backing up Lacie pictures...'
+echo 
+rsync -e "ssh -i dpf_backup_keygen" -a --showtogo --delete --rsync-path=/usr/local/bin/rsync /Volumes/Lacie/G5/Pictures pb17:/volumes/g-raid/G5
+echo
+echo '**************************************************'
+echo 'SYNCHRONIZING personal data to Powerbook'
+echo
+echo '(step 7) copying personal data...'
+echo 
+rsync -e "ssh -i dpf_backup_keygen" -alLH --eahfs --showtogo --rsync-path=/usr/local/bin/rsync --exclude=Desktop* --exclude=.* --exclude=Pictures* --exclude=Applications* --exclude=Library* --exclude=Temporary* ~/ pb17:/users/dferrell
+echo
+echo '(step 8) copying pictures...'
+echo 
+rsync -e "ssh -i dpf_backup_keygen" -a --showtogo --delete --rsync-path=/usr/local/bin/rsync /Volumes/Lacie/G5/Pictures pb17:/users/dferrell
+echo
+echo '(step 9) copying music files...'
+echo 
+rsync -e "ssh -i dpf_backup_keygen" -a --showtogo --rsync-path=/usr/local/bin/rsync /digital_music/aac_files pb17:/digital_music
+echo
+echo
+echo 'done.'

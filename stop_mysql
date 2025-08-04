@@ -1,0 +1,8 @@
+#!/bin/sh
+
+##
+# Stop mysql
+##
+
+sudo /usr/local/mysql/bin/mysqladmin -u root -p  shutdown
+

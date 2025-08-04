@@ -1,0 +1,8 @@
+#!/bin/sh
+
+##
+# Start mysql
+##
+sudo echo
+sudo /usr/local/mysql/bin/safe_mysqld &
+

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+
+arg1="$1"
+if [ -z "$arg1" ]; then
+    arg1="--help"
+fi
+
+
+case $arg1 in
+  --help)
+    echo ""
+    echo "Usage: android_sign [Project Name]"
+    echo "Available targets:"
+    android list targets
+    exit 0
+    ;;
+esac
+
+
+mv "$arg1"-unsigned.apk "$arg1"-release.apk
+
+keytool -genkey -v -keystore "$arg1"-release.keystore -alias "$arg1"
+
+jarsigner -verbose -keystore "$arg1"-release.keystore "$arg1"-release.apk "$arg1"
+
+jarsigner -verify -verbose -certs "$arg1"-release.apk
+
+zipalign -v 4 "$arg1"-release.apk "$arg1"-signed-aligned.apk
+
+rm -rfd "$arg1"-release.apk
+rm -rfd "$arg1".ap_
+
+
+

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+##
+# Start webmin
+##
+
+sudo perl /Applications/webmin-1.130/miniserv.pl /etc/webmin/miniserv.conf
+
+

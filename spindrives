@@ -1,0 +1,11 @@
+#!/bin/sh
+echo "SpinDrive v1.2 Copyright (c) 2007 David Ferrell"
+ls /Volumes/G-RAID/* > /dev/null
+ls /Volumes/Maxtor\ Media/* > /dev/null
+ls /Volumes/Maxtor\ Storage/* > /dev/null
+echo "Status: storage devices are awake and online."
+date
+echo
+exit
+
+

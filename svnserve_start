@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo svnserve -d --root /remote_svn_portfolio --listen-port 22898

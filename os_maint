@@ -1,0 +1,10 @@
+#!/bin/sh
+diskutil repairPermissions /
+update_prebinding -root /
+periodic daily
+periodic weekly 
+periodic monthly
+##lookupd -flushcache
+exit
+
+

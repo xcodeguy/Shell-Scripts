@@ -1,0 +1,20 @@
+#!/bin/sh
+#this will uninstall ARD admin and all it's components so you can reinstall 
+
+for file in 
+/var/db/RemoteManagement
+/Library/Preferences/com.apple.RemoteDesktop.plist
+/Library/Application Support/Apple/Remote Desktop
+/Applications/Remote Desktop.app
+$HOME/Library/Preferences/com.apple.RemoteDesktop.plist 
+$HOME/Library/Application Support/Remote Desktop
+$HOME/Applications/Remote Desktop.app
+/System/Library/PreferencePanes/SharingPref.prefPane/Contents/Resources/RemoteDesktop.bundle 
+;
+do
+    if [ -e "$file" ]
+    then
+        echo "rm -rf $file";
+        rm -rf "$file";
+    fi
+done

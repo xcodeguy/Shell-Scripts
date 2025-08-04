@@ -1,0 +1,22 @@
+#!/bin/sh
+
+##
+# Stop spotlight in 10.5
+##
+cd /System/Library/LaunchAgents
+launchctl unload com.apple.Spotlight.plist
+sudo launchctl unload -w com.apple.Spotlight.plist
+cd /System/Library/LaunchDaemons
+sudo launchctl unload -w com.apple.metadata.mds.plist
+#sudo find / -iname '.Spotlight-V100' -type d -maxdepth 3 -print0 | xargs -0 -t -n1 sudo rm -rf
+
+
+#enable spotlight for current user
+#cp /System/Library/LaunchAgents/com.apple.Spotlight.plist ~/Library/LaunchAgents/
+#launchctl -w ~/Library/LaunchAgents/com.apple.Spotlight.plist
+
+#enable/disable menubar icon ???
+#sudo chmod 0 /System/Library/CoreServices/Spotlight.app
+#To re-enable it later, do this:
+#sudo chmod 755 /System/Library/CoreServices/Spotlight.app
+

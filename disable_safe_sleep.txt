@@ -1,0 +1,17 @@
+The Big Sleep
+
+Mac notebooks take up to 20 seconds to go to sleep, because they're
+saving the state of your RAM to the hard drive. That's a feature called
+"safe sleep," and it ensures that if your power is cut, or your battery
+dies, your Mac will be able to preserve the contents of the memory and
+start you where you last left off. If that's not really a concern of
+yours, you can disable safe sleep in the Terminal and make your laptop
+sleep in as little as two seconds. Type these commands into the
+Terminal, and hit enter after each.
+
+$ sudo pmset -a hibernatemode 0 
+$ sudo nvram "use-nvramrc?"=false
+
+To re-enable safe sleep, repeat the above, but change "hibernatemode 0"
+to "hibernatemode 3," and =false to =true in the second command. Then
+reboot.
